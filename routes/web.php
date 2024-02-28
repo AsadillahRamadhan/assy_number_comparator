@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('assy-number-comparator')->group(function(){
+    Route::get('/', function () {
+        return view('welcome');
+    });
+    
+    Route::resource('/compare', CompareController::class);
+    Route::post('/export-data', [CompareController::class, 'export'])->name('compare.export');
 });
-
-Route::resource('/compare', CompareController::class);
-Route::post('/export-data', [CompareController::class, 'export'])->name('compare.export');
