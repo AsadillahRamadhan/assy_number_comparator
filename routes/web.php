@@ -14,11 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('assy-number-comparator')->group(function(){
-    Route::get('/', function () {
-        return view('welcome');
+
+    Route::prefix('assy-number-comparator')->group(function(){
+        Route::middleware('login')->group(function(){
+        Route::get('/', function () {
+            return view('welcome');
+        });
+        
+        Route::resource('/compare', CompareController::class);
+        Route::post('/export-data', [CompareController::class, 'export'])->name('compare.export');
+        });
+        Auth::routes();
     });
     
-    Route::resource('/compare', CompareController::class);
-    Route::post('/export-data', [CompareController::class, 'export'])->name('compare.export');
-});
+    
+    
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    
+
+

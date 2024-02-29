@@ -27,6 +27,7 @@
         </div>
     </div>
 </form>
+
 <form action="{{ route('compare.store') }}" method="post">
     @csrf
     <div class="modal fade" id="scan-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -39,7 +40,7 @@
             <div class="modal-body">
               <div class="form-group mb-3">
                 <label for="data-1">Data 1</label>
-                <input type="text" name="data_1" class="form-control" id="data-1" required>
+                <input type="text" name="data_1" class="form-control" id="data-1" required autofocus>
               </div>
               <div class="form-group">
                 <label for="data-2">Data 2</label>
@@ -56,7 +57,9 @@
 </form>
 <div class="d-flex justify-content-end">
     <button class="btn btn-success me-2"  data-bs-toggle="modal" data-bs-target="#export-data">Export Excel</button>
+    @if($nok == false)
     <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#scan-data">Scan Data</button>
+    @endif
 </div>
 <div class="mt-5">
     <table id="data-table" class="table table-striped">
@@ -72,18 +75,20 @@
         </thead>
         <tbody>
             @foreach($data as $d)
-            <tr >
+            <tr class="{{ $d->status == 0 ? 'bg-warning' : '' }}">
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $d->data_1 }}</td>
                 <td>{{ $d->data_2 }}</td>
                 <td><b class="{{ $d->status == 1 ? 'text-sucess' : 'text-danger' }}">{{ $d->status == 1 ? 'OK' : 'N-OK' }}</b></td>
                 <td>{{ date_format($d->created_at, 'd M Y') }}</td>
                 <td>
+                    @if(Auth::user()->type == 'super_staff')
                     <form action="{{ route('compare.destroy', ['compare' => $d->id]) }}" method="post">
                         @csrf
                         @method('delete')
                         <button class="btn btn-danger">Delete</button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -97,17 +102,29 @@
 @push('custom_js')
 <script>
     $('#data-table').DataTable();
-    @if(session('message'))
-    Swal.fire({
-        position: "middle",
-        icon: "{{ session('status') }}",
-        title: "{{ session('message') }}",
-        showConfirmButton: false,
-        timer: 1500
-    });
-
+    @if(session('file'))
     let audio = new Audio("{{ asset(session('file')) }}");
     audio.play();
     @endif
+
+    
 </script>
+@if($nok == false)
+<script>
+    var tabKeyEvent = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    keyCode: 9,
+    code: 'Tab',
+    which: 9,
+    shiftKey: false,
+    bubbles: true
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        $('#scan-data').modal('show');
+        setTimeout(() => {
+            document.querySelector('#data-1').focus();
+        }, 1000);
+    });
+</script>
+@endif
 @endpush

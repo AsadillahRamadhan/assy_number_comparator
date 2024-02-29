@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('data_2');
             $table->boolean('status');
             $table->date('date');
+            $table->enum('type', ['staff', 'export']);
             $table->timestamps();
         });
     }
