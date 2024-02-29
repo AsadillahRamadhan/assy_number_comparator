@@ -17,7 +17,7 @@ class AuthMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(!Auth::user()){
-            return redirect('/assy-number-comparator/login');
+            return redirect('/login');
         }
         return $next($request);
     }

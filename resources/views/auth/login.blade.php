@@ -98,7 +98,7 @@
                   </p>
                 </div>
                 <div>
-                  <form id="loginForm" class="tooltip-end-bottom" action="/assy-number-comparator/login" method="POST">
+                  <form id="loginForm" class="tooltip-end-bottom" action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="mb-3 filled form-group tooltip-end-top">
                       <i data-acorn-icon="email"></i>

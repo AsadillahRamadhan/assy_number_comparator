@@ -12,11 +12,11 @@
             <div class="modal-body">
               <div class="form-group mb-3">
                 <label for="start_date">Start Date</label>
-                <input type="date" name="start_date" class="form-control" id="start_date" required>
+                <input type="datetime-local" name="start_date" class="form-control" id="start_date" required>
               </div>
               <div class="form-group">
                 <label for="end_date">End Date</label>
-                <input type="date" name="end_date" class="form-control" id="end_date" required>
+                <input type="datetime-local" name="end_date" class="form-control" id="end_date" required>
               </div>
             </div>
             <div class="modal-footer">

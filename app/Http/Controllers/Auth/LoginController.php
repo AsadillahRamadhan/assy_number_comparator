@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/assy-number-comparator/compare';
+    protected $redirectTo = '/compare';
 
     /**
      * Create a new controller instance.
@@ -58,7 +58,7 @@ class LoginController extends Controller
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect('/assy-number-comparator');
+            : redirect('/');
     }
 
 }

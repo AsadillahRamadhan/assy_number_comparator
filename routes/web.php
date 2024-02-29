@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompareController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-    Route::prefix('assy-number-comparator')->group(function(){
         Route::middleware('login')->group(function(){
         Route::get('/', function () {
             return view('welcome');
@@ -25,7 +25,6 @@ use Illuminate\Support\Facades\Route;
         Route::post('/export-data', [CompareController::class, 'export'])->name('compare.export');
         });
         Auth::routes();
-    });
     
     
     

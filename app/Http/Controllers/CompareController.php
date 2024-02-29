@@ -42,27 +42,7 @@ class CompareController extends Controller
         $data_2 = explode(',', $request->post('data_2'));
 
         $fixedData1 = implode('', explode('-', $data_1[0]));
-        $temp_2_1 = explode(',', $data_2[1]);
-        $temp_2_2 = explode(' ', $temp_2_1[0]);
-        $fixedData2 = $temp_2_2[0];
-
-
-
-        // if(strlen($fixedData1) == 11){
-        //     $part1 = substr($data_2[1], 0, 5);
-        //     $part2 = substr($data_2[1], 5);
-        //     $fixedData2 = $part1 . '-' . $part2;
-        //     $fixedData2 = substr($fixedData2, 0, strlen($fixedData1));
-        // } else {
-        //     $part1 = substr($data_2[1], 0, 5);
-        //     $part2 = substr($data_2[1], 5, 10);
-        //     $part3 = substr($data_2[1], 10);
-            
-        //     $fixedData2 = $part1 . '-' . $part2 . '-' . $part3;
-        //     $fixedData2 = substr($fixedData2, 0, strlen($fixedData1));
-
-        // }
-        
+        $fixedData2 = substr($data_2[1], 0, strlen($fixedData1));
 
         $comparator = 0;
         if($fixedData1 == $fixedData2){
@@ -87,12 +67,15 @@ class CompareController extends Controller
     public function export(Request $request){
         $start_date = Carbon::parse($request->post('start_date'))->subDay();
         $end_date = Carbon::parse($request->post('end_date'))->addDay();
-        $data = Data::select('data_1', 'data_2', 'status', 'date')->whereBetween('created_at', [$start_date, $end_date])->get();
+        $data = Data::select('data_1', 'data_2', 'status', 'created_at')->whereBetween('created_at', [$start_date, $end_date])->get();
 
         $data = $data->map(function ($d) {
             $d->status = $d->status == 1 ? 'OK' : 'N-OK';
+            $d->date = Carbon::parse($d->created_at)->format('d-m-Y H:i:s');
+            unset($d->created_at);
             return $d;
         });
+        
 
         return Excel::download(new DataExport($data), "data_mulai_" . $request->post('start_date') . "_sampai_" . $request->post('end_date') . ".xlsx");
     }
