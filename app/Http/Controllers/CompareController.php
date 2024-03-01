@@ -67,7 +67,16 @@ class CompareController extends Controller
     public function export(Request $request){
         $start_date = Carbon::parse($request->post('start_date'))->subDay();
         $end_date = Carbon::parse($request->post('end_date'))->addDay();
-        $data = Data::select('data_1', 'data_2', 'status', 'created_at')->whereBetween('created_at', [$start_date, $end_date])->get();
+        
+        if(Auth::user()->type == 'super_staff'){
+            $data = Data::select('data_1', 'data_2', 'status', 'created_at')->whereBetween('created_at', [$start_date, $end_date])->get();
+        } else if(Auth::user()->type == 'scanin'){
+            $data = Data::select('data_1', 'data_2', 'status', 'created_at')->whereBetween('created_at', [$start_date, $end_date])->where('type', 'scanin')->get();
+        } else if(Auth::user()->type == 'export'){
+            $data = Data::select('data_1', 'data_2', 'status', 'created_at')->whereBetween('created_at', [$start_date, $end_date])->where('type', 'export')->get();
+
+        }
+        
 
         $data = $data->map(function ($d) {
             $d->status = $d->status == 1 ? 'OK' : 'N-OK';
