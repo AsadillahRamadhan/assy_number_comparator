@@ -28,6 +28,34 @@
     </div>
 </form>
 
+<form action="{{ route('compare.truncate') }}" method="post">
+  @csrf
+  <div class="modal fade" id="truncate-data" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Truncate</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group mb-3">
+              <label for="start_date">Start Date</label>
+              <input type="datetime-local" name="start_date" class="form-control" id="start_date" required>
+            </div>
+            <div class="form-group">
+              <label for="end_date">End Date</label>
+              <input type="datetime-local" name="end_date" class="form-control" id="end_date" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Truncate</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</form>
+
 <form action="{{ route('compare.store') }}" method="post">
     @csrf
     <div class="modal fade" id="scan-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,6 +84,9 @@
     </div>
 </form>
 <div class="d-flex justify-content-end">
+    @if(Auth::user()->type == 'super_staff')
+    <button class="btn btn-danger me-2"  data-bs-toggle="modal" data-bs-target="#truncate-data">Truncate</button>
+    @endif
     <button class="btn btn-success me-2"  data-bs-toggle="modal" data-bs-target="#export-data">Export Excel</button>
     @if($nok == false)
     <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#scan-data">Scan Data</button>

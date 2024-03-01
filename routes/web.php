@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
         
         Route::resource('/compare', CompareController::class);
         Route::post('/export-data', [CompareController::class, 'export'])->name('compare.export');
+        Route::post('/truncate-data', [CompareController::class, 'truncate'])->name('compare.truncate');
         });
         Auth::routes();
     

@@ -84,4 +84,11 @@ class CompareController extends Controller
         Data::find($id)->delete();
         return back();
     }
+
+    public function truncate(Request $request){
+        $start_date = Carbon::parse($request->post('start_date'))->subDay();
+        $end_date = Carbon::parse($request->post('end_date'))->addDay();
+        Data::whereBetween('created_at', [$start_date, $end_date])->delete();
+        return back();
+    }
 }
