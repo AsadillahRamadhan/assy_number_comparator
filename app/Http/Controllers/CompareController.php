@@ -12,8 +12,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class CompareController extends Controller
 {
     public function index(){
-        if(Auth::user()->type == 'staff'){
-            $data = Data::where('type', 'staff')->orderBy('created_at', 'desc')->get();
+        if(Auth::user()->type == 'scanin'){
+            $data = Data::where('type', 'scanin')->orderBy('created_at', 'desc')->get();
         } else if(Auth::user()->type == 'export'){
             $data = Data::where('type', 'export')->orderBy('created_at', 'desc')->get();
         } else {
