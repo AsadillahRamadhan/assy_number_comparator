@@ -46,10 +46,10 @@ class UserSeeder extends Seeder
                 'type' => 'super_staff'
             ],
             [
-                'name' => 'Staff',
-                'email' => 'staff@gmail.com',
-                'password' => Hash::make('staff'),
-                'type' => 'staff'
+                'name' => 'scanin',
+                'email' => 'scaninf@gmail.com',
+                'password' => Hash::make('scanin'),
+                'type' => 'scanin'
             ],
             [
                 'name' => 'Export',

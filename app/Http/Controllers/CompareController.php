@@ -54,7 +54,7 @@ class CompareController extends Controller
             'data_2' => $request->post('data_2'),
             'status' => $comparator,
             'date' => Carbon::now(),
-            'type' => (Auth::user()->type == 'super_staff' || Auth::user()->type == 'staff') ? 'staff' : 'export'
+            'type' => (Auth::user()->type == 'super_staff' || Auth::user()->type == 'scanin') ? 'scanin' : 'export'
         ]);
 
         if($comparator == 1){
