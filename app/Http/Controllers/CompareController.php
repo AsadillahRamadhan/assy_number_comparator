@@ -54,7 +54,8 @@ class CompareController extends Controller
             'data_2' => $request->post('data_2'),
             'status' => $comparator,
             'date' => Carbon::now(),
-            'type' => (Auth::user()->type == 'super_staff' || Auth::user()->type == 'scanin') ? 'scanin' : 'export'
+            'type' => (Auth::user()->type == 'super_staff' || Auth::user()->type == 'scanin') ? 'scanin' : 'export',
+            'created_at' => Carbon::now()->timezone('Asia/Jakarta')->format('Y-m-d H:i:s')
         ]);
 
         if($comparator == 1){
