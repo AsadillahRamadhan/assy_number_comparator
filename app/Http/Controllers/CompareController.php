@@ -41,11 +41,20 @@ class CompareController extends Controller
         $data_1 = explode('/', $request->post('data_1'));
         $data_2 = explode(',', $request->post('data_2'));
 
-        $fixedData1 = implode('', explode('-', $data_1[0]));
-        $fixedData2 = substr($data_2[1], 0, strlen($fixedData1));
+        $assy1 = implode('', explode('-', $data_1[0]));
+        $assy2 = substr($data_2[1], 0, strlen($assy1));
+
+        $qty1 = $data_1[1];
+        $qty2 = $data_2[2];
+        
+        $suffix1 = $data_1[2];
+        $suffix2 = substr($data_2[1], strlen($assy1), 1);
+
+        $level1 = $data_1[3];
+        $level2 = substr($data_2[1], strlen($assy1) + 1);
 
         $comparator = 0;
-        if($fixedData1 == $fixedData2){
+        if($assy1 == $assy2 && $qty1 == $qty2 && $suffix1 == $suffix2 && $level1 == $level2){
             $comparator = 1;
         }
 
